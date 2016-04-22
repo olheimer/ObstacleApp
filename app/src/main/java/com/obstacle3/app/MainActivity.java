@@ -124,8 +124,12 @@ public class MainActivity extends AppCompatActivity
         GeoPoint startPoint = new GeoPoint(48.8583, 2.2944);
         mapController.setCenter(startPoint);
 
-        map.addClassifiedPatch(0.5d,startPoint,Color.parseColor("#a0ff00ff"));
-        map.addClassifiedPatch(0.5d,startPoint.destinationPoint(10000.0,90.0f),Color.parseColor("#a0ff00"));
+        double resolutionInMeters = 10000.0;
+        GeoPoint centerOfFirst = startPoint.destinationPoint(resolutionInMeters/2,90.0f); //go east
+        centerOfFirst = centerOfFirst.destinationPoint(resolutionInMeters/2,180.0f); //go south
+
+        map.addClassifiedPatch(0.5d,centerOfFirst,Color.parseColor("#a0ff00ff"));
+        map.addClassifiedPatch(0.5d,centerOfFirst.destinationPoint(resolutionInMeters,90.0f),Color.parseColor("#a0ff00"));
     }
 
     private void init()
