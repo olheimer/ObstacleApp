@@ -47,6 +47,7 @@ dependencies {
     compile 'com.android.support:design:23.3.0'
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
+    compile 'org.osmdroid:osmdroid-android:5.1@aar'
 }
 
 apt {
