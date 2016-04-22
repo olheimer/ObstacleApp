@@ -2,6 +2,8 @@ package com.obstacle3.app;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +24,7 @@ import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.PathOverlay;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -110,7 +113,7 @@ public class MainActivity extends AppCompatActivity
 
     private void initMap()
     {
-        MapView map = (MapView) findViewById(R.id.map);
+        Map map = (Map) findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
 
         map.setBuiltInZoomControls(true);
@@ -120,6 +123,8 @@ public class MainActivity extends AppCompatActivity
         mapController.setZoom(9);
         GeoPoint startPoint = new GeoPoint(48.8583, 2.2944);
         mapController.setCenter(startPoint);
+
+        map.addClassifiedPatch(0.5d,startPoint);
     }
 
     private void init()

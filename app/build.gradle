@@ -13,6 +13,7 @@ buildscript {
 repositories {
     mavenCentral()
     mavenLocal()
+    maven { url "https://jitpack.io" }
 }
 
 apply plugin: 'com.android.application'
@@ -48,6 +49,7 @@ dependencies {
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     compile 'org.osmdroid:osmdroid-android:5.1@aar'
+    compile 'com.github.MKergall.osmbonuspack:OSMBonusPack:v5.7'
 }
 
 apt {
