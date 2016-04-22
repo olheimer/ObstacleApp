@@ -9,9 +9,12 @@ import android.util.AttributeSet;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.Polyline;
 import org.osmdroid.bonuspack.overlays.Polygon;
+import org.osmdroid.bonuspack.utils.PolylineEncoder;
 import org.osmdroid.tileprovider.MapTileProviderBase;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.drawing.OsmPath;
 import org.osmdroid.views.overlay.PathOverlay;
 
 /**
@@ -42,18 +45,23 @@ public class Map extends MapView {
         super(context, resourceProxy, aTileProvider, tileRequestCompleteHandler);
     }
 
-    
-    public void addClassifiedPatch(double resolution, GeoPoint ul)
+    /**
+     *
+     * @param resolution in degrees
+     * @param ul
+     */
+    public void addClassifiedPatch(double resolution, GeoPoint ul, int classificationColor)
     {
-
         Polygon square = new Polygon(getContext());
         square.setPoints(Polygon.pointsAsRect(ul,10000.0,10000.0));
 
         this.getOverlays().add(square);
 
-        square.setFillColor(Color.parseColor("#40ff00ff"));
-        square.setStrokeColor(Color.parseColor("#40ff00ff"));
+        square.setFillColor(classificationColor);
+        square.setStrokeColor(classificationColor);
         square.setStrokeWidth(2);
+
+
 
         invalidate();
     }
