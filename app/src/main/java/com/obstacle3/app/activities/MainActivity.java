@@ -102,9 +102,13 @@ public class MainActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if(id==R.id.nav_manage)
+        switch (id)
         {
-            startActivity(new Intent(this,DroneSetupActivity_.class));
+            case R.id.nav_manage:
+                startActivity(new Intent(this,DroneSetupActivity_.class));
+                break;
+            case R.id.nav_about:
+                startActivity(new Intent(this, AboutActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

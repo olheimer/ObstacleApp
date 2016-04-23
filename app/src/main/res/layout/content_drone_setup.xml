@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Small"
         android:text="@string/setup_your_drones_paramter_description"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="@dimen/headline_bottom_margin"/>
 
     <TextView
         android:layout_width="match_parent"
