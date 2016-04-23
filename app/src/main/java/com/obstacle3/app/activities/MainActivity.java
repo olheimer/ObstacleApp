@@ -26,7 +26,11 @@ import android.view.MenuItem;
 import com.obstacle3.app.Map;
 import com.obstacle3.app.R;
 import com.obstacle3.app.connection.ObstacleRest;
+import com.obstacle3.app.dialogs.FindLocation;
 
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
@@ -34,8 +38,10 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.PathOverlay;
 //TODO: Use http://nominatim.openstreetmap.org/search?q=<Querystring>&format=json for geocoding
 //TODO: Allow user to use his current location as position for Server Query
+@EActivity
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,5 +163,12 @@ public class MainActivity extends BaseActivity
             initMap();
         }
     }
+
+    @Click(R.id.content_main_set_location_btn)
+    public void setLocation()
+    {
+        (new FindLocation(this)).show();
+    }
+
 
 }
