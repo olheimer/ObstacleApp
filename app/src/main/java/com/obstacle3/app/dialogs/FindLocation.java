@@ -8,10 +8,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.obstacle3.app.R;
 import com.obstacle3.app.connection.GeolocateRest;
-import com.obstacle3.app.model.GeolocationResponse;
 import com.obstacle3.app.model.Location;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class FindLocation extends Dialog {
                 (new GeolocateRest(getContext())).query(query, new GeolocateRest.LocationReceivedListener() {
                     @Override
                     public void onError() {
-                        int i = 1;
+                        Toast.makeText(getOwnerActivity(), R.string.map_loading_error,Toast.LENGTH_LONG).show();
                     }
 
                     @Override

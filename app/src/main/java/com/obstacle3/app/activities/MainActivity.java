@@ -1,15 +1,12 @@
 package com.obstacle3.app.activities;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.RemoteInput;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -23,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.obstacle3.app.Map;
 import com.obstacle3.app.R;
@@ -40,7 +38,6 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 //TODO: Allow user to use his current location as position for Server Query
 @EActivity
@@ -138,7 +135,7 @@ public class MainActivity extends BaseActivity
         (new ObstacleRest((this))).getMapTypes(new ObstacleRest.MapTypeReceivedListener() {
             @Override
             public void onError() {
-
+                Toast.makeText(MainActivity.this, R.string.maptypes_not_loadable,Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -161,7 +158,7 @@ public class MainActivity extends BaseActivity
                             (new ObstacleRest(MainActivity.this)).getMap(currentLocation.lat, currentLocation.lon, 5000, 5000, 200, new ObstacleRest.MapReceivedListener() {
                                 @Override
                                 public void onError() {
-
+                                    Toast.makeText(MainActivity.this, R.string.map_loading_error,Toast.LENGTH_LONG).show();
                                 }
 
                                 @Override

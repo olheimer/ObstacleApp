@@ -5,4 +5,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="title_activity_drone_setup">Drone Setup</string>
+    <string name="maptypes_not_loadable">Can\'t load maptypes at the moment</string>
+    <string name="map_loading_error">Didn\'t receive map from server</string>
 </resources>
