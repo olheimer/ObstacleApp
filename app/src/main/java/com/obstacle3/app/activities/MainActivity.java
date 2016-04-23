@@ -25,6 +25,7 @@ import android.view.MenuItem;
 
 import com.obstacle3.app.Map;
 import com.obstacle3.app.R;
+import com.obstacle3.app.connection.ObstacleRest;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -55,6 +56,8 @@ public class MainActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         init();
+
+        (new ObstacleRest(this)).getRandomMap();
     }
 
     @Override
