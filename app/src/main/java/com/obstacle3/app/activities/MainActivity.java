@@ -1,6 +1,7 @@
-package com.obstacle3.app;
+package com.obstacle3.app.activities;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -22,13 +23,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.obstacle3.app.Map;
+import com.obstacle3.app.R;
+
 import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.PathOverlay;
-
-public class MainActivity extends AppCompatActivity
+//TODO: Use http://nominatim.openstreetmap.org/search?q=<Querystring>&format=json for geocoding
+//TODO: Allow user to use his current location as position for Server Query
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
@@ -84,6 +89,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
+        if(id==R.id.nav_manage)
+        {
+            startActivity(new Intent(this,DroneSetupActivity.class));
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
