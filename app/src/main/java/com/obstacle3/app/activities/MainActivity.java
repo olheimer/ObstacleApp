@@ -39,12 +39,17 @@ import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 //TODO: Allow user to use his current location as position for Server Query
 @EActivity
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Location currentLocation;
+
+    ArrayList<Button> mapSelectButtons = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +122,8 @@ public class MainActivity extends BaseActivity
 
     private void initMap()
     {
-        Map map = (Map) findViewById(R.id.map);
+        final Map map = (Map) findViewById(R.id.map);
+        map.getOverlays().clear();
         map.invalidate();
         map.setTileSource(TileSourceFactory.MAPNIK);
 
@@ -142,6 +148,8 @@ public class MainActivity extends BaseActivity
 
                 ll.removeAllViews();
 
+                mapSelectButtons.clear();
+
                 for (final MapType mapType:
                      mapTypes) {
                     Button selectButton = (Button) inflater.inflate(R.layout.maptype_select_button,ll,false);
@@ -149,7 +157,7 @@ public class MainActivity extends BaseActivity
 
                     selectButton.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onClick(final View v) {
                             (new ObstacleRest(MainActivity.this)).getMap(currentLocation.lat, currentLocation.lon, 5000, 5000, 200, new ObstacleRest.MapReceivedListener() {
                                 @Override
                                 public void onError() {
@@ -162,45 +170,30 @@ public class MainActivity extends BaseActivity
                                     ((Map) findViewById(R.id.map)).createClassifiedMapOverlay(ul,accuracy, classification);
                                     //((Map) findViewById(R.id.map)).addClassifiedPatch(2000,loc, Color.parseColor("#000000"));
                                     //((Map) findViewById(R.id.map)).createClassifiedMapOverlay(ul,10000, new int[][]{{0,8},{0,8},{15,0}});
+
+                                    for (Button mapSelect :
+                                            mapSelectButtons) {
+                                        mapSelect.setTextColor(ContextCompat.getColor(MainActivity.this,android.R.color.primary_text_light));
+                                    }
+
+                                    ((Button)v).setTextColor(ContextCompat.getColor(MainActivity.this,R.color.activeMapType));
+
+                                    addMapLongPressOverlay(map);
+
                                 }
                             },mapType.maptype);
                         }
                     });
+
+                    mapSelectButtons.add(selectButton);
 
                     ll.addView(selectButton);
                 }
             }
         });
 
-        MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this, new MapEventsReceiver() {
-            @Override
-            public boolean singleTapConfirmedHelper(GeoPoint p) {
-                return false;
-            }
+        addMapLongPressOverlay(map);
 
-            @Override
-            public boolean longPressHelper(final GeoPoint p) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setMessage("Fly here?");
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        currentLocation.lon = p.getLongitude();
-                        currentLocation.lat = p.getLatitude();
-                        initMap();
-                    }
-                });
-                builder.setNegativeButton("No, thanks", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                builder.create().show();
-                return true;
-            }
-        });
-        map.getOverlays().add(0, mapEventsOverlay);
     }
 
     private void init()
@@ -234,6 +227,39 @@ public class MainActivity extends BaseActivity
             }
         }));
         dialog.show();
+    }
+
+    private void addMapLongPressOverlay(Map map)
+    {
+        MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this, new MapEventsReceiver() {
+            @Override
+            public boolean singleTapConfirmedHelper(GeoPoint p) {
+                return false;
+            }
+
+            @Override
+            public boolean longPressHelper(final GeoPoint p) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage("Fly here?");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        currentLocation.lon = p.getLongitude();
+                        currentLocation.lat = p.getLatitude();
+                        initMap();
+                    }
+                });
+                builder.setNegativeButton("No, thanks", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.create().show();
+                return true;
+            }
+        });
+        map.getOverlays().add(0, mapEventsOverlay);
     }
 
 
