@@ -27,6 +27,7 @@ import com.obstacle3.app.Map;
 import com.obstacle3.app.R;
 import com.obstacle3.app.connection.ObstacleRest;
 import com.obstacle3.app.dialogs.FindLocation;
+import com.obstacle3.app.model.Location;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -127,7 +128,13 @@ public class MainActivity extends BaseActivity
 
     private void initMap()
     {
+        initMap(48.8583, 2.2944);
+    }
+
+    private void initMap(double lat, double lon)
+    {
         Map map = (Map) findViewById(R.id.map);
+        map.invalidate();
         map.setTileSource(TileSourceFactory.MAPNIK);
 
         map.setBuiltInZoomControls(true);
@@ -135,17 +142,8 @@ public class MainActivity extends BaseActivity
 
         IMapController mapController = map.getController();
         mapController.setZoom(9);
-        GeoPoint startPoint = new GeoPoint(48.8583, 2.2944);
+        GeoPoint startPoint = new GeoPoint(lat,lon);
         mapController.setCenter(startPoint);
-
-        double resolutionInMeters = 10000.0;
-        GeoPoint centerOfFirst = startPoint.destinationPoint(resolutionInMeters/2,90.0f); //go east
-        centerOfFirst = centerOfFirst.destinationPoint(resolutionInMeters/2,180.0f); //go south
-
-        //map.addClassifiedPatch(0.5d,centerOfFirst,Color.parseColor("#a0ff00ff"));
-        //map.addClassifiedPatch(0.5d,centerOfFirst.destinationPoint(resolutionInMeters,90.0f),Color.parseColor("#a0ff00"));
-
-        //map.createClassifiedMapOverlay(startPoint,10000, new int[][]{{0,8},{0,8},{15,0}});
     }
 
     private void init()
@@ -167,7 +165,13 @@ public class MainActivity extends BaseActivity
     @Click(R.id.content_main_set_location_btn)
     public void setLocation()
     {
-        (new FindLocation(this)).show();
+        FindLocation dialog = (new FindLocation(this, new FindLocation.LocationSelectedListener() {
+            @Override
+            public void onLocationSelected(Location l) {
+                initMap(l.lat,l.lon);
+            }
+        }));
+        dialog.show();
     }
 
 

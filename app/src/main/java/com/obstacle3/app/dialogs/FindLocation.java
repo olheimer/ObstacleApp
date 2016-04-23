@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.ListViewCompat;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
@@ -22,6 +23,7 @@ public class FindLocation extends Dialog {
 
     ListViewCompat mResults;
     LocationAdapter mAdapter;
+    LocationSelectedListener selectedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,31 +56,24 @@ public class FindLocation extends Dialog {
 
                     @Override
                     public void onLocationReceived(ArrayList<Location> response) {
-                        int i = 1;
+                        mAdapter.updateData(response);
                     }
                 });
             }
         });
+
+        mResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedListener.onLocationSelected(mAdapter.mLocations.get(position));
+                dismiss();
+            }
+        });
     }
 
-    public FindLocation(Context context) {
+    public FindLocation(Context context, LocationSelectedListener listener) {
         super(context);
-        init();
-    }
-
-    public FindLocation(Context context, int themeResId) {
-        super(context, themeResId);
-        init();
-    }
-
-    protected FindLocation(Context context, boolean cancelable, OnCancelListener cancelListener) {
-        super(context, cancelable, cancelListener);
-        init();
-    }
-
-    private void init()
-    {
-
+        selectedListener = listener;
     }
 
     public class LocationAdapter extends ArrayAdapter<String>
@@ -110,5 +105,10 @@ public class FindLocation extends Dialog {
         public boolean hasStableIds() {
             return true;
         }
+    }
+
+    public interface LocationSelectedListener
+    {
+        void onLocationSelected(Location l);
     }
 }
