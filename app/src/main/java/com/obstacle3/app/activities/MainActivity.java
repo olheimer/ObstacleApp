@@ -57,7 +57,7 @@ public class MainActivity extends BaseActivity
 
         init();
 
-        (new ObstacleRest(this)).getRandomMap();
+        (new ObstacleRest(this)).getRandomMap(49.783871,9.976217,300,300,20);
     }
 
     @Override
@@ -125,8 +125,10 @@ public class MainActivity extends BaseActivity
         GeoPoint centerOfFirst = startPoint.destinationPoint(resolutionInMeters/2,90.0f); //go east
         centerOfFirst = centerOfFirst.destinationPoint(resolutionInMeters/2,180.0f); //go south
 
-        map.addClassifiedPatch(0.5d,centerOfFirst,Color.parseColor("#a0ff00ff"));
-        map.addClassifiedPatch(0.5d,centerOfFirst.destinationPoint(resolutionInMeters,90.0f),Color.parseColor("#a0ff00"));
+        //map.addClassifiedPatch(0.5d,centerOfFirst,Color.parseColor("#a0ff00ff"));
+        //map.addClassifiedPatch(0.5d,centerOfFirst.destinationPoint(resolutionInMeters,90.0f),Color.parseColor("#a0ff00"));
+
+        map.createClassifiedMapOverlay(startPoint,10000, new int[][]{{0,0},{0,0},{0,0}});
     }
 
     private void init()

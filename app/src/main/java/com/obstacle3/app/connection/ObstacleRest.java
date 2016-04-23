@@ -15,7 +15,7 @@ import com.obstacle3.app.model.GenerateMapResponse;
 /**
  * Created by oliverheim on 23.04.16.
  */
-//@Rest(rootUrl = "http://172.17.68.6:3000/api", converters = { StringHttpMessageConverter.class, GsonHttpMessageConverter.class })
+
 public class ObstacleRest {
     
     RequestQueue requestQueue;
@@ -27,15 +27,15 @@ public class ObstacleRest {
         requestQueue = Volley.newRequestQueue(context);
     }
     
-    public void getRandomMap()
+    public void getRandomMap(double lat, double lon, int length, int width, int accuracy)
     {
         GenerateMapRequest request = new GenerateMapRequest();
-        request.accuracy = 20;
+        request.accuracy = accuracy;
         GenerateMapRequestFlightArea fa = new GenerateMapRequestFlightArea();
-        fa.lat = 49.783871;
-        fa.lon = 9.976217;
-        fa.length = 300;
-        fa.width = 300;
+        fa.lat = lat;
+        fa.lon = lon;
+        fa.length = length;
+        fa.width = width;
         request.flightarea = fa;
 
         requestQueue.add(new GsonRequest<>(baseUrl + "/generate-map/random", GenerateMapResponse.class, request, new Response.Listener<GenerateMapResponse>() {

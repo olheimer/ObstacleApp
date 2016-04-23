@@ -6,6 +6,8 @@ import android.graphics.Paint;
 import android.os.Handler;
 import android.util.AttributeSet;
 
+import com.obstacle3.app.model.GenerateMapResponse;
+
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.Polyline;
 import org.osmdroid.bonuspack.overlays.Polygon;
@@ -47,13 +49,13 @@ public class Map extends MapView {
 
     /**
      *
-     * @param resolution in degrees
+     * @param accuracy in meter
      * @param ul
      */
-    public void addClassifiedPatch(double resolution, GeoPoint ul, int classificationColor)
+    public void addClassifiedPatch(int accuracy, GeoPoint ul, int classificationColor)
     {
         Polygon square = new Polygon(getContext());
-        square.setPoints(Polygon.pointsAsRect(ul,10000.0,10000.0));
+        square.setPoints(Polygon.pointsAsRect(ul,accuracy,accuracy));
 
         this.getOverlays().add(square);
 
@@ -64,5 +66,38 @@ public class Map extends MapView {
 
 
         invalidate();
+    }
+
+    /**
+     *
+     * @param ul upper left (most north/west) start point for classified patch map
+     * @param accuracy in meters -> with and height of each classified patch which will be executed
+     * @param classification classification for each patch. 0/0 is most upper left, length-1/length-1 most lower right patch
+     */
+    public void createClassifiedMapOverlay(GeoPoint ul, int accuracy, int[][]classification)
+    {
+        GeoPoint centerOfFirst = ul.destinationPoint(accuracy/2,90.0f); //go east
+        centerOfFirst = centerOfFirst.destinationPoint(accuracy/2,180.0f); //go south
+
+        int lineCount = 0;
+        int colCount = 0;
+
+
+
+        for (int[] lineClassification: classification) {
+
+            colCount = 0;
+            GeoPoint patchPoint = centerOfFirst.clone();
+            for (int rowClassification: lineClassification) {
+                addClassifiedPatch(accuracy,patchPoint,Color.parseColor("#a0ff00"));
+                //go east
+                patchPoint = patchPoint.destinationPoint(accuracy,90.0f);
+                colCount++;
+            }
+            lineCount++;
+
+            //Go south
+            centerOfFirst = centerOfFirst.destinationPoint(accuracy,180.0f);
+        }
     }
 }
