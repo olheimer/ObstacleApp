@@ -10,6 +10,8 @@ import com.obstacle3.app.model.GenerateMapResponse;
 
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.Polyline;
+import org.osmdroid.bonuspack.overlays.BasicInfoWindow;
+import org.osmdroid.bonuspack.overlays.InfoWindow;
 import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.utils.PolylineEncoder;
 import org.osmdroid.tileprovider.MapTileProviderBase;
@@ -63,6 +65,9 @@ public class Map extends MapView {
         square.setStrokeColor(classificationColor);
         square.setStrokeWidth(2);
 
+        BasicInfoWindow basicInfoWindow = new BasicInfoWindow(org.osmdroid.bonuspack.R.layout.bonuspack_bubble, this);
+        square.setInfoWindow(basicInfoWindow);
+        square.setTitle("Here should be detailed Data about this patch: Left for implementation");
 
 
         invalidate();
