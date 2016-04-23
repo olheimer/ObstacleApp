@@ -13,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -28,6 +29,7 @@ import com.obstacle3.app.R;
 import com.obstacle3.app.connection.ObstacleRest;
 import com.obstacle3.app.dialogs.FindLocation;
 import com.obstacle3.app.model.Location;
+import com.obstacle3.app.model.MapType;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -63,19 +65,6 @@ public class MainActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         init();
-
-        (new ObstacleRest(this)).getRandomMap(48.8583, 2.2944, 5000, 5000, 200, new ObstacleRest.MapReceivedListener() {
-            @Override
-            public void onError() {
-
-            }
-
-            @Override
-            public void onMapReceived(GeoPoint ul, int[][] classification, int accuracy) {
-                ((Map) findViewById(R.id.map)).createClassifiedMapOverlay(ul,accuracy, classification);
-                //((Map) findViewById(R.id.map)).createClassifiedMapOverlay(ul,10000, new int[][]{{0,8},{0,8},{15,0}});
-            }
-        });
     }
 
     @Override
@@ -144,6 +133,18 @@ public class MainActivity extends BaseActivity
         GeoPoint startPoint = new GeoPoint(lat,lon);
         mapController.animateTo(startPoint);
         mapController.setZoom(14);
+
+        (new ObstacleRest((this))).getMapTypes(new ObstacleRest.MapTypeReceivedListener() {
+            @Override
+            public void onError() {
+
+            }
+
+            @Override
+            public void onMapTypesReceived(MapType[] mapTypes) {
+                LayoutInflater inflater  = getLayoutInflater();
+            }
+        });
     }
 
     private void init()

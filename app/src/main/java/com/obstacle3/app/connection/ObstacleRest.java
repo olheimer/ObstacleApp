@@ -10,8 +10,12 @@ import com.android.volley.toolbox.Volley;
 import com.obstacle3.app.model.GenerateMapRequest;
 import com.obstacle3.app.model.GenerateMapRequestFlightArea;
 import com.obstacle3.app.model.GenerateMapResponse;
+import com.obstacle3.app.model.MapType;
+import com.obstacle3.app.model.MapTypeResponse;
 
 import org.osmdroid.util.GeoPoint;
+
+import java.util.ArrayList;
 
 
 /**
@@ -53,10 +57,31 @@ public class ObstacleRest {
         }));
     }
 
+    public void getMapTypes(final MapTypeReceivedListener listener)
+    {
+        requestQueue.add(new GsonRequest<>(baseUrl + "/get-maptypes/", MapTypeResponse.class, null, new Response.Listener<MapTypeResponse>() {
+            @Override
+            public void onResponse(MapTypeResponse response) {
+                listener.onMapTypesReceived(response.maptypes);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                listener.onError();
+            }
+        }));
+    }
+
     public interface MapReceivedListener
     {
         void onError();
         void onMapReceived(GeoPoint ul, int[][]classification, int accuracy);
+    }
+
+    public interface MapTypeReceivedListener
+    {
+        void onError();
+        void onMapTypesReceived(MapType mapTypes[]);
     }
 
 }
