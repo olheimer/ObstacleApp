@@ -141,9 +141,9 @@ public class MainActivity extends BaseActivity
         map.setMultiTouchControls(true);
 
         IMapController mapController = map.getController();
-        mapController.setZoom(9);
         GeoPoint startPoint = new GeoPoint(lat,lon);
-        mapController.setCenter(startPoint);
+        mapController.animateTo(startPoint);
+        mapController.setZoom(14);
     }
 
     private void init()
