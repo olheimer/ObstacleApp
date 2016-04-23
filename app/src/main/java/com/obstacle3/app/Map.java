@@ -76,6 +76,8 @@ public class Map extends MapView {
      */
     public void createClassifiedMapOverlay(GeoPoint ul, int accuracy, int[][]classification)
     {
+        getOverlays().clear();
+
         GeoPoint centerOfFirst = ul.destinationPoint(accuracy/2,90.0f); //go east
         centerOfFirst = centerOfFirst.destinationPoint(accuracy/2,180.0f); //go south
 

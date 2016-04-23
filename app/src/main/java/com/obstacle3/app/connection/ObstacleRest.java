@@ -15,6 +15,8 @@ import com.obstacle3.app.model.MapTypeResponse;
 
 import org.osmdroid.util.GeoPoint;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 
@@ -33,7 +35,7 @@ public class ObstacleRest {
         requestQueue = Volley.newRequestQueue(context);
     }
     
-    public void getRandomMap(double lat, double lon, int length, int width, int accuracy, final MapReceivedListener listener)
+    public void getMap(double lat, double lon, int length, int width, int accuracy, final MapReceivedListener listener, String type)
     {
         GenerateMapRequest request = new GenerateMapRequest();
         request.accuracy = accuracy;
@@ -44,17 +46,21 @@ public class ObstacleRest {
         fa.width = width;
         request.flightarea = fa;
 
-        requestQueue.add(new GsonRequest<>(baseUrl + "/generate-map/random", GenerateMapResponse.class, request, new Response.Listener<GenerateMapResponse>() {
-            @Override
-            public void onResponse(GenerateMapResponse response) {
-                listener.onMapReceived(new GeoPoint(response.lat,response.lon),response.classification, response.accuracy);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                listener.onError();
-            }
-        }));
+        try {
+            requestQueue.add(new GsonRequest<>(baseUrl + "/generate-map/"+ URLEncoder.encode(type,"UTF-8"), GenerateMapResponse.class, request, new Response.Listener<GenerateMapResponse>() {
+                @Override
+                public void onResponse(GenerateMapResponse response) {
+                    listener.onMapReceived(new GeoPoint(response.lat,response.lon),response.classification, response.accuracy);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    listener.onError();
+                }
+            }));
+        } catch (UnsupportedEncodingException e) {
+            listener.onError();
+        }
     }
 
     public void getMapTypes(final MapTypeReceivedListener listener)
