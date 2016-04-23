@@ -88,8 +88,11 @@ public class Map extends MapView {
 
             colCount = 0;
             GeoPoint patchPoint = centerOfFirst.clone();
-            for (int rowClassification: lineClassification) {
-                addClassifiedPatch(accuracy,patchPoint,Color.parseColor("#a0ff00"));
+            for (int colClassification: lineClassification) {
+                int red = (int)(255*(((float)(15-colClassification))/((float)15)));
+                int green = (int) (255*(((float)colClassification)/((float)15)));
+                int clasColor = Color.rgb(red,green,0);
+                addClassifiedPatch(accuracy,patchPoint,getClassificationColor(colClassification));
                 //go east
                 patchPoint = patchPoint.destinationPoint(accuracy,90.0f);
                 colCount++;
@@ -99,5 +102,20 @@ public class Map extends MapView {
             //Go south
             centerOfFirst = centerOfFirst.destinationPoint(accuracy,180.0f);
         }
+    }
+
+    /**
+     *
+     * @param classification 15: 100% occupied = red, 0: 0% occupied = green
+     * @return
+     */
+    public int getClassificationColor(double classification)
+    {
+        float H = (float)(((15.0f - classification)/15.0f) * 120.0f); //Hue: 120 = green, 0 = red
+        float S = 0.9f; // Saturation
+        float B = 0.9f; // Brightness
+
+
+        return Color.HSVToColor(80, new float[]{H,S,B});
     }
 }

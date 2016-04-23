@@ -128,7 +128,7 @@ public class MainActivity extends BaseActivity
         //map.addClassifiedPatch(0.5d,centerOfFirst,Color.parseColor("#a0ff00ff"));
         //map.addClassifiedPatch(0.5d,centerOfFirst.destinationPoint(resolutionInMeters,90.0f),Color.parseColor("#a0ff00"));
 
-        map.createClassifiedMapOverlay(startPoint,10000, new int[][]{{0,0},{0,0},{0,0}});
+        map.createClassifiedMapOverlay(startPoint,10000, new int[][]{{0,8},{0,8},{15,0}});
     }
 
     private void init()
