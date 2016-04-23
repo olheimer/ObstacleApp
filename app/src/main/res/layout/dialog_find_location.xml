@@ -3,6 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <EditText
+        android:id="@+id/dialog_find_location_query"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Where do you want to fly?"/>
@@ -12,4 +13,10 @@
         android:layout_height="200dp">
 
     </android.support.v7.widget.ListViewCompat>
+
+    <Button
+        android:id="@+id/dialog_find_location_find"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Find"/>
 </LinearLayout>
