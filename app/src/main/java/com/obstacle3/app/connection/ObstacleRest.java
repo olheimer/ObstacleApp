@@ -11,6 +11,8 @@ import com.obstacle3.app.model.GenerateMapRequest;
 import com.obstacle3.app.model.GenerateMapRequestFlightArea;
 import com.obstacle3.app.model.GenerateMapResponse;
 
+import org.osmdroid.util.GeoPoint;
+
 
 /**
  * Created by oliverheim on 23.04.16.
@@ -27,7 +29,7 @@ public class ObstacleRest {
         requestQueue = Volley.newRequestQueue(context);
     }
     
-    public void getRandomMap(double lat, double lon, int length, int width, int accuracy)
+    public void getRandomMap(double lat, double lon, int length, int width, int accuracy, final MapReceivedListener listener)
     {
         GenerateMapRequest request = new GenerateMapRequest();
         request.accuracy = accuracy;
@@ -41,14 +43,20 @@ public class ObstacleRest {
         requestQueue.add(new GsonRequest<>(baseUrl + "/generate-map/random", GenerateMapResponse.class, request, new Response.Listener<GenerateMapResponse>() {
             @Override
             public void onResponse(GenerateMapResponse response) {
-                int i = 1;
+                listener.onMapReceived(new GeoPoint(response.lat,response.lon),response.classification, response.accuracy);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                int i = 1;
+                listener.onError();
             }
         }));
+    }
+
+    public interface MapReceivedListener
+    {
+        void onError();
+        void onMapReceived(GeoPoint ul, int[][]classification, int accuracy);
     }
 
 }

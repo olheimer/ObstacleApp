@@ -6,4 +6,6 @@ package com.obstacle3.app.model;
 public class GenerateMapResponse {
     public int accuracy;
     public int classification[][];
+    public double lat;
+    public double lon;
 }

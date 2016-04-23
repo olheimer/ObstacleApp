@@ -57,7 +57,18 @@ public class MainActivity extends BaseActivity
 
         init();
 
-        (new ObstacleRest(this)).getRandomMap(49.783871,9.976217,300,300,20);
+        (new ObstacleRest(this)).getRandomMap(48.8583, 2.2944, 5000, 5000, 200, new ObstacleRest.MapReceivedListener() {
+            @Override
+            public void onError() {
+
+            }
+
+            @Override
+            public void onMapReceived(GeoPoint ul, int[][] classification, int accuracy) {
+                ((Map) findViewById(R.id.map)).createClassifiedMapOverlay(ul,accuracy, classification);
+                //((Map) findViewById(R.id.map)).createClassifiedMapOverlay(ul,10000, new int[][]{{0,8},{0,8},{15,0}});
+            }
+        });
     }
 
     @Override
@@ -128,7 +139,7 @@ public class MainActivity extends BaseActivity
         //map.addClassifiedPatch(0.5d,centerOfFirst,Color.parseColor("#a0ff00ff"));
         //map.addClassifiedPatch(0.5d,centerOfFirst.destinationPoint(resolutionInMeters,90.0f),Color.parseColor("#a0ff00"));
 
-        map.createClassifiedMapOverlay(startPoint,10000, new int[][]{{0,8},{0,8},{15,0}});
+        //map.createClassifiedMapOverlay(startPoint,10000, new int[][]{{0,8},{0,8},{15,0}});
     }
 
     private void init()
