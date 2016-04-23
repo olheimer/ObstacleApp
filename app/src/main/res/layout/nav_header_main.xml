@@ -17,6 +17,6 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:src="@drawable/logo"
-        android:tint="@color/colorAccent"/>
+        android:tint="@color/drawerLogo"/>
 
 </LinearLayout>

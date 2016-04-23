@@ -11,4 +11,13 @@
     <com.obstacle3.app.Map android:id="@+id/map"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:tint="#000000"
+        android:src="@android:drawable/ic_menu_mylocation"
+        android:layout_margin="@dimen/fab_margin" />
 </RelativeLayout>

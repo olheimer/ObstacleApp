@@ -2,5 +2,7 @@
 <resources>
     <color name="colorPrimary">#009688</color>
     <color name="colorPrimaryDark">#00796b</color>
-    <color name="colorAccent">#1de9b6</color>
+    <color name="colorAccent">#f0f0f0</color>
+
+    <color name="drawerLogo">#1de9b6</color>
 </resources>
