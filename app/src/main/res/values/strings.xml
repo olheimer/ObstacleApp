@@ -7,4 +7,9 @@
     <string name="title_activity_drone_setup">Drone Setup</string>
     <string name="maptypes_not_loadable">Can\'t load maptypes at the moment</string>
     <string name="map_loading_error">Didn\'t receive map from server</string>
+    <string name="setup_your_drones_parameter_headline">Setup your drones parameter</string>
+    <string name="setup_your_drones_paramter_description">We need this to adapt our algorithms to your individual drone</string>
+    <string name="your_drones_mass">Mass</string>
+    <string name="your_drones_max_flight_height">Maximum flight height</string>
+    <string name="your_drones_max_speed">Maximum speed</string>
 </resources>

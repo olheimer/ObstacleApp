@@ -16,8 +16,21 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:text="@string/setup_your_drones_parameter_headline" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:text="@string/setup_your_drones_paramter_description"
+        android:layout_marginBottom="30dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Medium"
-        android:text="Your drones mass"/>
+        android:text="@string/your_drones_mass"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Medium"
-        android:text="Your drones max flight height"/>
+        android:text="@string/your_drones_max_flight_height"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,7 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Medium"
-        android:text="Your drones max speed"/>
+        android:text="@string/your_drones_max_speed"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
