@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:inputType="numberDecimal"
+            android:maxLength="10"
             />
         <TextView
             android:layout_width="match_parent"
@@ -54,6 +55,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:inputType="numberDecimal"
+            android:digits="0123456789"
+            android:maxLength="5"
             />
         <TextView
             android:layout_width="match_parent"
@@ -79,6 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:inputType="numberDecimal"
+            android:maxLength="5"
             />
         <TextView
             android:layout_width="match_parent"

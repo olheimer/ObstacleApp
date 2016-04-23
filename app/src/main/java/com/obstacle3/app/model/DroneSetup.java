@@ -1,6 +1,7 @@
 package com.obstacle3.app.model;
 
 import org.androidannotations.annotations.sharedpreferences.DefaultFloat;
+import org.androidannotations.annotations.sharedpreferences.DefaultInt;
 import org.androidannotations.annotations.sharedpreferences.DefaultString;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.androidannotations.annotations.sharedpreferences.SharedPref;
@@ -13,6 +14,9 @@ public interface DroneSetup {
     @DefaultFloat(50.0f)
     float mass();
 
-    @DefaultFloat(1000.0f)
-    float maxFlightHeight();
+    @DefaultInt(1000)
+    int maxFlightHeight();
+
+    @DefaultFloat(5.0f)
+    float maxSpeed();
 }
