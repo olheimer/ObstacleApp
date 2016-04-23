@@ -35,15 +35,6 @@ public class FindLocation extends Dialog {
         mAdapter = new LocationAdapter(getContext(), android.R.layout.simple_list_item_1);
         mResults.setAdapter(mAdapter);
 
-        Location l = new Location();
-        l.name = "Test";
-        l.lat = 1.0;
-        l.lon = 1.0;
-
-        ArrayList<Location> loc = new ArrayList<>();
-        loc.add(l);
-        mAdapter.updateData(loc);
-
         findViewById(R.id.dialog_find_location_find).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
