@@ -1,13 +1,17 @@
 package com.obstacle3.app.activities;
 
 import android.Manifest;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.RemoteInput;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -30,10 +34,11 @@ import com.obstacle3.app.model.MapType;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
+import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 
-//TODO: Use http://nominatim.openstreetmap.org/search?q=<Querystring>&format=json for geocoding
 //TODO: Allow user to use his current location as position for Server Query
 @EActivity
 public class MainActivity extends BaseActivity
@@ -166,6 +171,36 @@ public class MainActivity extends BaseActivity
                 }
             }
         });
+
+        MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this, new MapEventsReceiver() {
+            @Override
+            public boolean singleTapConfirmedHelper(GeoPoint p) {
+                return false;
+            }
+
+            @Override
+            public boolean longPressHelper(final GeoPoint p) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage("Fly here?");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        currentLocation.lon = p.getLongitude();
+                        currentLocation.lat = p.getLatitude();
+                        initMap();
+                    }
+                });
+                builder.setNegativeButton("No, thanks", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.create().show();
+                return true;
+            }
+        });
+        map.getOverlays().add(0, mapEventsOverlay);
     }
 
     private void init()
