@@ -92,7 +92,7 @@ public class MainActivity extends BaseActivity
 
         if(id==R.id.nav_manage)
         {
-            startActivity(new Intent(this,DroneSetupActivity.class));
+            startActivity(new Intent(this,DroneSetupActivity_.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

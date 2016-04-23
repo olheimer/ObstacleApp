@@ -9,6 +9,10 @@ import android.view.View;
 
 import com.obstacle3.app.R;
 
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+
+@EActivity
 public class DroneSetupActivity extends AppCompatActivity {
 
     @Override
@@ -20,6 +24,13 @@ public class DroneSetupActivity extends AppCompatActivity {
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+
+    @Click(R.id.drone_setup_done)
+    public void droneSetupDone()
+    {
+        finish();
     }
 
 }
