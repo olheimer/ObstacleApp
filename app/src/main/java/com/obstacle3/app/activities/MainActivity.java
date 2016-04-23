@@ -23,6 +23,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.obstacle3.app.Map;
 import com.obstacle3.app.R;
@@ -142,7 +144,17 @@ public class MainActivity extends BaseActivity
 
             @Override
             public void onMapTypesReceived(MapType[] mapTypes) {
+                LinearLayout ll = (LinearLayout) findViewById(R.id.content_main_maptype_select_wrapper);
                 LayoutInflater inflater  = getLayoutInflater();
+
+                ll.removeAllViews();
+
+                for (MapType mapType:
+                     mapTypes) {
+                    Button selectButton = (Button) inflater.inflate(R.layout.maptype_select_button,ll,false);
+                    selectButton.setText(mapType.name);
+                    ll.addView(selectButton);
+                }
             }
         });
     }
