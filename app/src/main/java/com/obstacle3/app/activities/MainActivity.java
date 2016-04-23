@@ -124,8 +124,6 @@ public class MainActivity extends BaseActivity
         mapController.setZoom(14);
         mapController.animateTo(startPoint);
 
-        //map.addClassifiedPatch(2000,startPoint, Color.parseColor("#000000"));
-
         (new ObstacleRest((this))).getMapTypes(new ObstacleRest.MapTypeReceivedListener() {
             @Override
             public void onError() {
@@ -155,7 +153,9 @@ public class MainActivity extends BaseActivity
 
                                 @Override
                                 public void onMapReceived(GeoPoint ul, int[][] classification, int accuracy) {
+                                    //GeoPoint loc = new GeoPoint(currentLocation.lat,currentLocation.lon);
                                     ((Map) findViewById(R.id.map)).createClassifiedMapOverlay(ul,accuracy, classification);
+                                    //((Map) findViewById(R.id.map)).addClassifiedPatch(2000,loc, Color.parseColor("#000000"));
                                     //((Map) findViewById(R.id.map)).createClassifiedMapOverlay(ul,10000, new int[][]{{0,8},{0,8},{15,0}});
                                 }
                             },mapType.maptype);
