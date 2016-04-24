@@ -38,6 +38,30 @@
         android:layout_height="wrap_content"
         />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:text="Flight corridor size in Meter"/>
+
+    <EditText
+        android:id="@+id/app_settings_fc_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:text="Flight corridor patch size ( = resolution) in Meter"/>
+
+    <EditText
+        android:id="@+id/app_settings_fc_patch_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
     <ImageButton
         android:id="@+id/content_app_settings_btn_done"
         android:layout_width="50dp"

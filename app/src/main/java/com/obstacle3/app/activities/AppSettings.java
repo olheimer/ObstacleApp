@@ -1,8 +1,6 @@
 package com.obstacle3.app.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -10,10 +8,8 @@ import android.webkit.URLUtil;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.obstacle3.app.R;
-import com.obstacle3.app.model.AppSettingsModel;
 import com.obstacle3.app.model.AppSettingsModel_;
 
 import org.androidannotations.annotations.Click;
@@ -21,11 +17,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.TextChange;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLEncoder;
 
 @EActivity
 public class AppSettings extends AppCompatActivity {
@@ -38,6 +29,15 @@ public class AppSettings extends AppCompatActivity {
 
     @ViewById(R.id.app_settings_server_url)
     EditText baseUrl;
+
+    @ViewById(R.id.app_settings_fc_patch_size)
+    EditText patchSize;
+
+    @ViewById(R.id.app_settings_fc_size)
+    EditText fcSize;
+
+    int accuracy = 200;
+    int validatedFcSize = 5000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,18 +61,63 @@ public class AppSettings extends AppCompatActivity {
             basUrl = basUrl.substring(0,basUrl.length()-1);
         }
         settings.edit().restapiurl().put(basUrl).apply();
+        settings.edit().accuracy().put(accuracy);
+        settings.edit().flightCorridorSize().put(validatedFcSize);
         finish();
     }
 
     @TextChange(R.id.app_settings_server_url)
     public void onUrlChanged(CharSequence text, TextView tv, int before, int start, int count) {
+        validateInput();
+    }
 
-        if(!URLUtil.isHttpUrl(text.toString()) &&!URLUtil.isHttpsUrl(text.toString()))
+    @TextChange(R.id.app_settings_fc_patch_size)
+    public void onPatchSizeChanged(CharSequence text, TextView tv, int before, int start, int count) {
+        validateInput();
+    }
+
+    @TextChange(R.id.app_settings_fc_size)
+    public void onFcSizeChanged(CharSequence text, TextView tv, int before, int start, int count) {
+        validateInput();
+    }
+
+    private void validateInput()
+    {
+        boolean valid = true;
+        String basUrl = baseUrl.getText().toString();
+
+        if(!URLUtil.isHttpUrl(basUrl) && !URLUtil.isHttpsUrl(basUrl))
         {
-            doneBtn.setVisibility(View.INVISIBLE);
+            valid  = false;
+        }
+
+        try
+        {
+            accuracy = Integer.valueOf(patchSize.getText().toString());
+        }catch (NumberFormatException e)
+        {
+            valid = false;
+        }
+
+        try
+        {
+            validatedFcSize = Integer.valueOf(fcSize.getText().toString());
+            if(validatedFcSize% accuracy !=0) //fc must be multiple of patch
+            {
+                valid = false;
+            }
+        }catch (NumberFormatException e)
+        {
+            valid = false;
+        }
+
+
+        if(valid)
+        {
+            doneBtn.setVisibility(View.VISIBLE);
         }
         else {
-            doneBtn.setVisibility(View.VISIBLE);
+            doneBtn.setVisibility(View.INVISIBLE);
         }
     }
 

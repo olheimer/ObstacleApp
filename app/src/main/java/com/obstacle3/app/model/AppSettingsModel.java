@@ -12,4 +12,10 @@ import org.androidannotations.annotations.sharedpreferences.SharedPref;
 public interface AppSettingsModel {
     @DefaultString("http://172.17.68.6:3000/api")
     String restapiurl();
+
+    @DefaultInt(200)
+    int accuracy();
+
+    @DefaultInt(5000)
+    int flightCorridorSize();
 }
