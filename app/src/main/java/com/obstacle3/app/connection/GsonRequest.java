@@ -1,4 +1,5 @@
 package com.obstacle3.app.connection;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -36,6 +37,11 @@ public class GsonRequest<T> extends Request<T> {
         this.clazz = clazz;
         this.listener = listener;
         this.gsonrequest = gsonRequest;
+
+        setRetryPolicy(new DefaultRetryPolicy(
+                30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
     @Override

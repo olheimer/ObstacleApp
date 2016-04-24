@@ -19,7 +19,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.obstacle3.app.Map;
@@ -31,6 +33,7 @@ import com.obstacle3.app.model.MapType;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
 import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
@@ -47,6 +50,9 @@ public class MainActivity extends BaseActivity
     Location currentLocation;
 
     ArrayList<Button> mapSelectButtons = new ArrayList<>();
+
+    @ViewById(R.id.content_main_progress_bar)
+    FrameLayout mProgressOverlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,14 +146,20 @@ public class MainActivity extends BaseActivity
         mapController.setZoom(14);
         mapController.animateTo(startPoint);
 
+        mProgressOverlay.setVisibility(View.VISIBLE);
+
         (new ObstacleRest((this))).getMapTypes(new ObstacleRest.MapTypeReceivedListener() {
             @Override
             public void onError() {
                 Toast.makeText(MainActivity.this, R.string.maptypes_not_loadable,Toast.LENGTH_LONG).show();
+                mProgressOverlay.setVisibility(View.GONE);
             }
 
             @Override
             public void onMapTypesReceived(MapType[] mapTypes) {
+
+
+                mProgressOverlay.setVisibility(View.GONE);
                 LinearLayout ll = (LinearLayout) findViewById(R.id.content_main_maptype_select_wrapper);
                 LayoutInflater inflater  = getLayoutInflater();
 
@@ -163,14 +175,17 @@ public class MainActivity extends BaseActivity
                     selectButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(final View v) {
+                            mProgressOverlay.setVisibility(View.VISIBLE);
                             (new ObstacleRest(MainActivity.this)).getMap(currentLocation.lat, currentLocation.lon, 5000, 5000, 200, new ObstacleRest.MapReceivedListener() {
                                 @Override
                                 public void onError() {
                                     Toast.makeText(MainActivity.this, R.string.map_loading_error,Toast.LENGTH_LONG).show();
+                                    mProgressOverlay.setVisibility(View.GONE);
                                 }
 
                                 @Override
                                 public void onMapReceived(GeoPoint ul, int[][] classification, int accuracy) {
+                                    mProgressOverlay.setVisibility(View.GONE);
                                     //GeoPoint loc = new GeoPoint(currentLocation.lat,currentLocation.lon);
                                     ((Map) findViewById(R.id.map)).createClassifiedMapOverlay(ul,accuracy, classification);
                                     //((Map) findViewById(R.id.map)).addClassifiedPatch(2000,loc, Color.parseColor("#000000"));
@@ -265,6 +280,12 @@ public class MainActivity extends BaseActivity
             }
         });
         map.getOverlays().add(0, mapEventsOverlay);
+    }
+
+    @Click(R.id.content_main_progress_bar)
+    public void progressDummyClick()
+    {
+
     }
 
 
