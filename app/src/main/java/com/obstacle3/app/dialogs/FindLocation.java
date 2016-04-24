@@ -42,7 +42,7 @@ public class FindLocation extends Dialog {
                 (new GeolocateRest(getContext())).query(query, new GeolocateRest.LocationReceivedListener() {
                     @Override
                     public void onError() {
-                        Toast.makeText(getOwnerActivity(), R.string.map_loading_error,Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Sorry, geocoding doesn't work at the moment. Please use long press on map to set new location.",Toast.LENGTH_LONG).show();
                     }
 
                     @Override
