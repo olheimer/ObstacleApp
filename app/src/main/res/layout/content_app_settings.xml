@@ -62,6 +62,24 @@
         android:layout_height="wrap_content"
         />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:text="Show satelitemap"
+            android:layout_toLeftOf="@+id/content_app_settings_showsattelite"/>
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/content_app_settings_showsattelite"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+
     <ImageButton
         android:id="@+id/content_app_settings_btn_done"
         android:layout_width="50dp"

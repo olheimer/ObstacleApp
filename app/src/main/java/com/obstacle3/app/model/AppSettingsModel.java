@@ -1,5 +1,6 @@
 package com.obstacle3.app.model;
 
+import org.androidannotations.annotations.sharedpreferences.DefaultBoolean;
 import org.androidannotations.annotations.sharedpreferences.DefaultFloat;
 import org.androidannotations.annotations.sharedpreferences.DefaultInt;
 import org.androidannotations.annotations.sharedpreferences.DefaultString;
@@ -18,4 +19,7 @@ public interface AppSettingsModel {
 
     @DefaultInt(5000)
     int flightCorridorSize();
+
+    @DefaultBoolean(false)
+    boolean useSateliteMap();
 }

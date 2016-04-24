@@ -2,6 +2,7 @@ package com.obstacle3.app.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.URLUtil;
@@ -33,6 +34,9 @@ public class AppSettings extends AppCompatActivity {
     @ViewById(R.id.app_settings_fc_patch_size)
     EditText patchSize;
 
+    @ViewById(R.id.content_app_settings_showsattelite)
+    SwitchCompat showSatelite;
+
     @ViewById(R.id.app_settings_fc_size)
     EditText fcSize;
 
@@ -47,6 +51,10 @@ public class AppSettings extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         baseUrl.setText(settings.restapiurl().get());
+        patchSize.setText(Integer.toString(settings.accuracy().get()));
+        fcSize.setText(Integer.toString(settings.flightCorridorSize().get()));
+        showSatelite.setChecked(settings.useSateliteMap().get());
+
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -61,8 +69,9 @@ public class AppSettings extends AppCompatActivity {
             basUrl = basUrl.substring(0,basUrl.length()-1);
         }
         settings.edit().restapiurl().put(basUrl).apply();
-        settings.edit().accuracy().put(accuracy);
-        settings.edit().flightCorridorSize().put(validatedFcSize);
+        settings.edit().accuracy().put(accuracy).apply();
+        settings.edit().flightCorridorSize().put(validatedFcSize).apply();
+        settings.edit().useSateliteMap().put(showSatelite.isChecked()).apply();
         finish();
     }
 

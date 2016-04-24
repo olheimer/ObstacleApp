@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -24,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.obstacle3.app.App;
 import com.obstacle3.app.Map;
 import com.obstacle3.app.R;
 import com.obstacle3.app.connection.ObstacleRest;
@@ -54,6 +56,8 @@ public class MainActivity extends BaseActivity
     @ViewById(R.id.content_main_progress_bar)
     FrameLayout mProgressOverlay;
 
+    boolean useSattelite;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +77,20 @@ public class MainActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         init();
+
+        useSattelite = App.getSettings().useSateliteMap().get();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(useSattelite!=App.getSettings().useSateliteMap().get())
+        {
+            initMap();
+        }
+
+        useSattelite = App.getSettings().useSateliteMap().get();
     }
 
     @Override
@@ -136,7 +154,15 @@ public class MainActivity extends BaseActivity
         final Map map = (Map) findViewById(R.id.map);
         map.getOverlays().clear();
         map.invalidate();
-        map.setTileSource(TileSourceFactory.MAPNIK);
+
+        if(App.getSettings().useSateliteMap().get())
+        {
+            map.setTileSource(TileSourceFactory.USGS_SAT);
+        }
+        else {
+            map.setTileSource(TileSourceFactory.MAPNIK);
+        }
+
 
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
@@ -176,7 +202,7 @@ public class MainActivity extends BaseActivity
                         @Override
                         public void onClick(final View v) {
                             mProgressOverlay.setVisibility(View.VISIBLE);
-                            (new ObstacleRest(MainActivity.this)).getMap(currentLocation.lat, currentLocation.lon, 5000, 5000, 200, new ObstacleRest.MapReceivedListener() {
+                            (new ObstacleRest(MainActivity.this)).getMap(currentLocation.lat, currentLocation.lon, App.getSettings().flightCorridorSize().get(), App.getSettings().flightCorridorSize().get(), App.getSettings().accuracy().get(), new ObstacleRest.MapReceivedListener() {
                                 @Override
                                 public void onError() {
                                     Toast.makeText(MainActivity.this, R.string.map_loading_error,Toast.LENGTH_LONG).show();
@@ -188,7 +214,7 @@ public class MainActivity extends BaseActivity
                                     mProgressOverlay.setVisibility(View.GONE);
                                     //GeoPoint loc = new GeoPoint(currentLocation.lat,currentLocation.lon);
                                     ((Map) findViewById(R.id.map)).createClassifiedMapOverlay(ul,accuracy, classification);
-                                    //((Map) findViewById(R.id.map)).addClassifiedPatch(2000,loc, Color.parseColor("#000000"));
+                                    //((Map) findViewById(R.id.map)).addClassifiedPatch(20,loc, Color.parseColor("#000000"));
                                     //((Map) findViewById(R.id.map)).createClassifiedMapOverlay(ul,10000, new int[][]{{0,8},{0,8},{15,0}});
 
                                     for (Button mapSelect :
