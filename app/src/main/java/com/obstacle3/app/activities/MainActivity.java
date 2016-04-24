@@ -109,6 +109,10 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.nav_about:
                 startActivity(new Intent(this, AboutActivity.class));
+                break;
+            case R.id.nav_app_settings:
+                startActivity(new Intent(this, AppSettings_.class));
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

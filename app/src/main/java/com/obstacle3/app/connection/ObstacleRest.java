@@ -7,6 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.obstacle3.app.App;
 import com.obstacle3.app.model.GenerateMapRequest;
 import com.obstacle3.app.model.GenerateMapRequestFlightArea;
 import com.obstacle3.app.model.GenerateMapResponse;
@@ -28,8 +29,6 @@ public class ObstacleRest {
     
     RequestQueue requestQueue;
     
-    private String baseUrl = "http://172.17.68.6:3000/api";
-    
     public ObstacleRest(Context context)
     {
         requestQueue = Volley.newRequestQueue(context);
@@ -47,7 +46,7 @@ public class ObstacleRest {
         request.flightarea = fa;
 
         try {
-            requestQueue.add(new GsonRequest<>(baseUrl + "/generate-map/"+ URLEncoder.encode(type,"UTF-8"), GenerateMapResponse.class, request, new Response.Listener<GenerateMapResponse>() {
+            requestQueue.add(new GsonRequest<>(App.getSettings().restapiurl().get() + "/generate-map/"+ URLEncoder.encode(type,"UTF-8"), GenerateMapResponse.class, request, new Response.Listener<GenerateMapResponse>() {
                 @Override
                 public void onResponse(GenerateMapResponse response) {
                     listener.onMapReceived(new GeoPoint(response.lat,response.lon),response.classification, response.accuracy);
@@ -65,7 +64,7 @@ public class ObstacleRest {
 
     public void getMapTypes(final MapTypeReceivedListener listener)
     {
-        requestQueue.add(new GsonRequest<>(baseUrl + "/get-maptypes/", MapTypeResponse.class, null, new Response.Listener<MapTypeResponse>() {
+        requestQueue.add(new GsonRequest<>(App.getSettings().restapiurl().get() + "/get-maptypes/", MapTypeResponse.class, null, new Response.Listener<MapTypeResponse>() {
             @Override
             public void onResponse(MapTypeResponse response) {
                 listener.onMapTypesReceived(response.maptypes);

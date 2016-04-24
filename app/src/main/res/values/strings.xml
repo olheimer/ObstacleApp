@@ -13,4 +13,5 @@
     <string name="your_drones_max_flight_height">Maximum flight height</string>
     <string name="your_drones_max_speed">Maximum speed</string>
     <string name="title_activity_about">About</string>
+    <string name="title_activity_app_settings">App settings</string>
 </resources>
