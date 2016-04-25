@@ -1,13 +1,15 @@
 package com.obstacle3.app.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.TextView;
 
 import com.obstacle3.app.R;
 
@@ -20,10 +22,20 @@ public class AboutActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        WebView wv = (WebView) findViewById(R.id.abtout_webview_link_githun);
-        wv.loadData("<html><body style=\"background-color:transparent;\"><a style=\"color:#000000\" href=\"https://github.com/olheimer/ObstacleApp\">https://github.com/olheimer/ObstacleApp</a></body></html>","text/html","UTF-8");
-        wv.setBackgroundColor(Color.TRANSPARENT);
-        wv.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
+        TextView linkGitHub = ((TextView)findViewById(R.id.about_link_github));
+        linkGitHub.setText(Html.fromHtml("<u>https://github.com/olheimer/ObstacleApp</u>"));
+
+        linkGitHub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setAction(Intent.ACTION_VIEW);
+                i.setDataAndType(Uri.parse("https://github.com/olheimer/ObstacleApp"), "text/html");
+
+                startActivity(i);
+
+            }
+        });
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
