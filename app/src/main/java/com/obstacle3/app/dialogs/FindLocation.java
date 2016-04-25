@@ -2,12 +2,18 @@ package com.obstacle3.app.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.ListViewCompat;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.obstacle3.app.R;
@@ -29,27 +35,20 @@ public class FindLocation extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.dialog_find_location);
 
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         mResults  = (ListViewCompat)findViewById(R.id.dialog_find_location_results_wrapper);
-        mAdapter = new LocationAdapter(getContext(), android.R.layout.simple_list_item_1);
+        mAdapter = new LocationAdapter(getContext(), R.layout.find_location_list_elem);
         mResults.setAdapter(mAdapter);
 
         findViewById(R.id.dialog_find_location_find).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String query = ((EditText)findViewById(R.id.dialog_find_location_query)).getText().toString();
-                (new GeolocateRest(getContext())).query(query, new GeolocateRest.LocationReceivedListener() {
-                    @Override
-                    public void onError() {
-                        Toast.makeText(getContext(), "Sorry, geocoding doesn't work at the moment. Please use long press on map to set new location.",Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onLocationReceived(ArrayList<Location> response) {
-                        mAdapter.updateData(response);
-                    }
-                });
+                query();
             }
         });
 
@@ -58,6 +57,18 @@ public class FindLocation extends Dialog {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedListener.onLocationSelected(mAdapter.mLocations.get(position));
                 dismiss();
+            }
+        });
+
+        ((EditText)findViewById(R.id.dialog_find_location_query)).setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    query();
+                    handled = true;
+                }
+                return handled;
             }
         });
     }
@@ -101,5 +112,21 @@ public class FindLocation extends Dialog {
     public interface LocationSelectedListener
     {
         void onLocationSelected(Location l);
+    }
+
+    private void query()
+    {
+        String query = ((EditText)findViewById(R.id.dialog_find_location_query)).getText().toString();
+        (new GeolocateRest(getContext())).query(query, new GeolocateRest.LocationReceivedListener() {
+            @Override
+            public void onError() {
+                Toast.makeText(getContext(), "Sorry, geocoding doesn't work at the moment. Please use long press on map to set new location.",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onLocationReceived(ArrayList<Location> response) {
+                mAdapter.updateData(response);
+            }
+        });
     }
 }

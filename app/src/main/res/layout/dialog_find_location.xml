@@ -1,22 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <EditText
-        android:id="@+id/dialog_find_location_query"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#00000000">
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Where do you want to fly?"/>
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/dialog_find_location_query"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/dialog_find_location_find"
+            android:hint="Enter your location"
+            android:textColor="@android:color/primary_text_dark"
+            android:textColorHint="@android:color/secondary_text_dark"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"/>
+        <ImageButton
+            android:id="@+id/dialog_find_location_find"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_ok"
+            android:src="@drawable/ic_search_white_72pt"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"/>
+    </RelativeLayout>
+
     <android.support.v7.widget.ListViewCompat
         android:id="@+id/dialog_find_location_results_wrapper"
         android:layout_width="match_parent"
         android:layout_height="200dp">
 
     </android.support.v7.widget.ListViewCompat>
-
-    <Button
-        android:id="@+id/dialog_find_location_find"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Find"/>
 </LinearLayout>
