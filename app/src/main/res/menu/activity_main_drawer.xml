@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+
         <item
             android:id="@+id/nav_manage"
-            android:title="Setup drone" />
+            android:title="Drone Setup" />
+    <item
+        android:id="@+id/nav_app_settings"
+        android:title="App Settings" />
 
-    </group>
 
     <item android:title="Extras">
         <menu>
             <item
-                android:id="@+id/nav_app_settings"
-                android:title="App settings" />
-            <item
                 android:id="@+id/nav_about"
                 android:title="About" />
             <item
-                android:id="@+id/nav_3rd_pardty"
-                android:title="Third party Software" />
+                android:id="@+id/nav_licenses"
+                android:title="Licenses" />
         </menu>
     </item>
 
