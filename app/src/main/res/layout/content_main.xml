@@ -32,6 +32,16 @@
         android:orientation="vertical"
         android:layout_marginRight="@dimen/activity_horizontal_margin"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="© OpenStreetMap contributors"
+        android:background="#60ffffff"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:padding="2dp"
+        android:layout_margin="2dp"/>
+
     <FrameLayout
         android:id="@+id/content_main_progress_bar"
         android:layout_width="match_parent"
@@ -42,4 +52,5 @@
             android:layout_height="100dp"
             android:layout_gravity="center"/>
     </FrameLayout>
+
 </RelativeLayout>
