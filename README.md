@@ -11,3 +11,7 @@ Some Screenshots
 ![Settings](docs/Settings.png)
 ![Drone Setup](docs/DroneSetup.png)
 ![Fly Here](docs/FlyHere.png)
+
+Get the release
+
+![Obstacle3 APK](release/obstacle3.apk)
